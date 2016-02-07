@@ -60,7 +60,7 @@ def generate_feature_4(line):
 	sum_open_spaces = 0
 
 	for i in range(0,7):
-		for j in range(0,6)
+		for j in range(0,6):
 
 			"Ignore any pieces that aren't player1s"
 			if(line[i*6+j] != "1"):
@@ -148,7 +148,7 @@ def feature_generator_main():
 		file_content = f.readlines()
 
 	"Remove the first line of the file to be added on later"
-	first_line = file_content[0]	
+	first_line = file_content[0].replace("\n","")	
 	file_content = file_content[1:]
 
 	"Generate features for each board and generate the corresponding output lines"
@@ -161,14 +161,19 @@ def feature_generator_main():
 		feature3 = generate_feature_3(new_line)
 		feature4 = generate_feature_4(new_line)
 		feature5 = generate_feature_5(new_line)
-		new_line = new_line + "," + feature1 + "," + feature2 + "," + feature3 + "," + feature4 + "," + feature5 + "\n"
+		new_line = new_line + "," + str(feature1) + "," + str(feature2) + "," + str(feature3) + "," + str(feature4) + "," + str(feature5) + "\n"
 		new_file_content.append(new_line)
 
 	"Write to the output file"
 	output_file = open(args.output_file_name, "w")
+
+	first_line = first_line + ",feature1,feature2,feature3,feature4,feature5\n"
+	output_file.write(first_line)
 	
 	for line in new_file_content:
 		output_file.write(line)
 
 	output_file.close()
 
+if __name__ == '__main__':
+	feature_generator_main()
