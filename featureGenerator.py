@@ -49,7 +49,7 @@ def generate_feature_3(line):
 
 	return num_cols
 
-"Generate the value for the third feature"
+"Generate the value for the fourth feature"
 "line is the board to use to generate the feature"
 "This feature is the total number of spaces surronding player1s pieces"
 "Open spaces shared by 2 or more pieces are counted multiple times"
@@ -105,7 +105,7 @@ def generate_feature_4(line):
 
 	return sum_open_spaces
 
-"Generate the value for the third feature"
+"Generate the value for the fifth feature"
 "line is the board to use to generate the feature"
 "This feature is the number of pieces player 1 has along the edge of the board"
 def generate_feature_5(line):
@@ -134,6 +134,51 @@ def generate_feature_5(line):
 
 	return sum_edge_pieces
 
+"Generate the value for the sixth feature"
+"line is the board to use to generate the feature"
+"This feature is the number of horizontal 2-in-a-row strings for player 1"
+def generate_feature_6(line):
+	line = line.replace(",", "")
+
+	sum_two_in_a_row = 0
+
+	for i in range (0,6):
+		for j in range(0,6):
+			if(line[i*6+j] == line[i*6+j+1] == "1"):
+				sum_two_in_a_row = sum_two_in_a_row + 1
+
+	return sum_two_in_a_row
+
+"Generate the value for the seventh feature"
+"line is the board to use to generate the feature"
+"This feature is the number of horizontal 2-in-a-row strings for player 2"
+def generate_feature_7(line):
+	line = line.replace(",", "")
+
+	sum_two_in_a_row = 0
+
+	for i in range (0,6):
+		for j in range(0,6):
+			if(line[i*6+j] == line[i*6+j+1] == "2"):
+				sum_two_in_a_row = sum_two_in_a_row + 1
+
+	return sum_two_in_a_row	
+
+"Generate the value for the eigth feature"
+"line is the board to use to generate the feature"
+"This feature is the number of vertical 2-in-a-row strings for player 1"
+def generate_feature_8(line):
+	line = line.replace(",", "")
+
+	sum_two_in_a_row = 0
+
+	for j in range (0,7):
+		for i in range(0,5):
+			if(line[i*6+j] == line[(i+1)*6+j] == "1"):
+				sum_two_in_a_row = sum_two_in_a_row + 1
+
+	return sum_two_in_a_row	
+
 "Main script for the program"
 def feature_generator_main():
 	
@@ -161,13 +206,17 @@ def feature_generator_main():
 		feature3 = generate_feature_3(new_line)
 		feature4 = generate_feature_4(new_line)
 		feature5 = generate_feature_5(new_line)
-		new_line = new_line + "," + str(feature1) + "," + str(feature2) + "," + str(feature3) + "," + str(feature4) + "," + str(feature5) + "\n"
+		feature6 = generate_feature_6(new_line)
+		feature7 = generate_feature_7(new_line)
+		feature8 = generate_feature_8(new_line)
+		new_line = new_line + "," + str(feature1) + "," + str(feature2) + "," + str(feature3) + ","
+		new_line = new_line + str(feature4) + "," + str(feature5) + "," + str(feature6) + "," + str(feature7) + "," + str(feature8) + "\n" 
 		new_file_content.append(new_line)
 
 	"Write to the output file"
 	output_file = open(args.output_file_name, "w")
 
-	first_line = first_line + ",feature1,feature2,feature3,feature4,feature5\n"
+	first_line = first_line + ",feature1,feature2,feature3,feature4,feature5,feature6,feature7,feature8\n"
 	output_file.write(first_line)
 	
 	for line in new_file_content:
